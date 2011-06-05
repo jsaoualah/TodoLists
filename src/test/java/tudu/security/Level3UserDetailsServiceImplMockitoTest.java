@@ -36,7 +36,6 @@ public class Level3UserDetailsServiceImplMockitoTest {
         user.getRoles().add(userRole);
         expect(userService.findUser("test_user")).andReturn(user);
 
-        userService.updateUser(user);
 
         replay(userService);
 
