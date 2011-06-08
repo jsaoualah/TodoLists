@@ -64,4 +64,32 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user.getPassword(), user.isEnabled(), true, true, true,
                 authorities);
     }
+
+	 @Transactional
+    public UserDetails loadUserByUsernameJoke(String login)
+            throws UsernameNotFoundException, DataAccessException {
+        login = login.toLowerCase();
+        if (log.isDebugEnabled()) {
+            log.debug("Security verification for user '" + login + "'");
+        }
+        User user;
+        try {
+            user = userService.findUserJoke(login);
+        } catch (ObjectRetrievalFailureException orfe) {
+            throw new UsernameNotFoundException("User '" + login
+                    + "' could not be found.");
+        }
+        user.setLastAccessDate(Calendar.getInstance().getTime());
+
+        Set<Role> roles = user.getRoles();
+
+        Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        for (Role role : roles) {
+            authorities.add(new GrantedAuthorityImpl(role.getRole()));
+        }
+
+        return new org.springframework.security.core.userdetails.User(login,
+                user.getPassword(), user.isEnabled(), true, true, true,
+                authorities);
+    }
 }
