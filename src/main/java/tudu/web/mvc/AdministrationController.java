@@ -42,6 +42,7 @@ public class AdministrationController {
      * - Vérifier dans un test que pour la page "configuration" les propriétés smtp (et uniquement celles là) soit donnée au model
      * - Vérifier dans un test que pour la page "configuration" il n'y a pas d'interaction avec userService.
      */
+
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView display(@RequestParam(required = false) String page) {
 

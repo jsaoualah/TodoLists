@@ -1,11 +1,13 @@
 package tudu.web.filter;
 
 import org.junit.Test;
-
-import javax.servlet.ServletException;
-import java.io.IOException;
+import java.security.Principal;
+import tudu.domain.User;
 
 public class Level3MonitorFilterTest {
+
+
+    User springSecurityUser = new User();
 
     /*
   Verifier que l on passe bien dans les branches
@@ -21,6 +23,11 @@ public class Level3MonitorFilterTest {
     */
     @Test
     public void test_authentication_1() {
+
+
+
+
+
     }
     @Test
     public void test_authentication_2() {

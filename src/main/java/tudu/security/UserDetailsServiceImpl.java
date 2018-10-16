@@ -56,10 +56,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<Role> roles = user.getRoles();
 
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        for (Role role : roles) {
+        for (Role role : roles)
+        {
             authorities.add(new GrantedAuthorityImpl(role.getRole()));
         }
-
         return new org.springframework.security.core.userdetails.User(login,
                 user.getPassword(), user.isEnabled(), true, true, true,
                 authorities);

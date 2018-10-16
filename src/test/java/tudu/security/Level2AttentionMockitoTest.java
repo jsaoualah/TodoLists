@@ -8,14 +8,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.test.util.ReflectionTestUtils;
+
 import tudu.domain.Role;
 import tudu.domain.RolesEnum;
 import tudu.domain.User;
-import tudu.service.UserService;
+
 import tudu.service.impl.UserServiceImpl;
 
-import static org.easymock.EasyMock.*;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.when;
@@ -57,6 +57,8 @@ public class Level2AttentionMockitoTest {
                 springSecurityUser.getAuthorities().iterator().next().getAuthority());
 
     }
+
+
     @Test
     public void testLoadUserByUsername_erreur() {
         User user = new User();
@@ -81,7 +83,8 @@ public class Level2AttentionMockitoTest {
 
     }
 
-	 @Test
+/*
+    @Test
     public void testLoadUserByUsername_danger() {
         User user = new User();
         user.setLogin("test_user");
@@ -103,5 +106,5 @@ public class Level2AttentionMockitoTest {
         assertEquals(RolesEnum.ROLE_USER.toString(),
                 springSecurityUser.getAuthorities().iterator().next().getAuthority());
 
-    }
+    }  */
 }

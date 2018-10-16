@@ -1,15 +1,18 @@
 package tudu.service.impl;
 
+import org.fest.assertions.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.orm.ObjectRetrievalFailureException;
 import tudu.domain.User;
 import tudu.service.UserAlreadyExistsException;
 
 import javax.persistence.EntityManager;
+import javax.persistence.LockModeType;
 
 public class Level1UserServiceImplMockitoTest {
 
@@ -36,11 +39,12 @@ public class Level1UserServiceImplMockitoTest {
     */
     @Test
     public void find_user_should_return_the_user() {
-        //given
 
-        //when
-
-        //then
+        Mockito.when(entityManager.find(User.class, "test_user")).thenReturn(user);
+        User userResult = userService.findUser("test_user");
+        Assertions.assertThat(user.getLogin()).isEqualTo(userResult.getLogin());
+        Assertions.assertThat(user.getFirstName()).isEqualTo(userResult.getFirstName());
+        Assertions.assertThat(user.getLastName()).isEqualTo(userResult.getLastName());
     }
 
     @Test
@@ -51,11 +55,8 @@ public class Level1UserServiceImplMockitoTest {
     Aide : Utilisation de verify
     */
     public void update_user_should_call_entityManager_merge() {
-        //given
-
-        //when
-
-        //then
+        userService.updateUser(user);
+        Mockito.verify(entityManager).merge(user);
     }
 
     @Test
@@ -65,11 +66,9 @@ public class Level1UserServiceImplMockitoTest {
     Méthode : findUser
     */
     public void user_should_be_retrieved() {
-        //given
-
-        //when
-
-        //then
+        Mockito.when(entityManager.find(User.class, "test_user")).thenReturn(user);
+        User userRes = userService.findUser("test_user");
+        Mockito.verify(entityManager).find(User.class, "test_user");
     }
 
 
@@ -77,13 +76,10 @@ public class Level1UserServiceImplMockitoTest {
     Vérifier qu'une exception de type ObjectRetrievalFailureException est bien levée si l entityManager find renvoie null
     Méthode : findUser
     */
-    @Test
+    @Test(expected = ObjectRetrievalFailureException.class)
     public void error_should_be_thrown_when_a_user_is_not_found() {
-        //given
-
-        //when
-
-        //then
+        Mockito.when(entityManager.find(User.class, "test_user")).thenReturn(null);
+        userService.findUser("test_user");
 
     }
 
@@ -92,13 +88,10 @@ public class Level1UserServiceImplMockitoTest {
     Méthode : createUser
     */
 
-    @Test
+    @Test(expected = UserAlreadyExistsException.class)
     public void exception_should_be_thrown_when_creating_an_already_existed_user() throws UserAlreadyExistsException {
-        //given
-
-        //when
-
-        //then
+        Mockito.when(entityManager.find(User.class, "test_user")).thenReturn(user);
+        userService.createUser(user);
     }
 
     /*
@@ -108,11 +101,9 @@ public class Level1UserServiceImplMockitoTest {
     */
     @Test
     public void new_user_should_be_saved() throws UserAlreadyExistsException {
-        //given
-
-        //when
-
-        //then
+        Mockito.when(entityManager.find(User.class, "test_user")).thenReturn(null);
+        userService.createUser(user);
+        Mockito.verify(entityManager).persist(user);
     }
 
 
